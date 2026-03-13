@@ -18,20 +18,21 @@ export default function AnalyticsScreen() {
   );
 
   return (
-    <ScrollView className="flex-1 bg-slate-100" contentContainerStyle={{ padding: 16, gap: 12 }}>
+    <ScrollView className="flex-1 bg-indigo-50" contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 30 }}>
       <SectionHeader
+        eyebrow="Insights"
         title="Weekly Analytics"
         subtitle={`Week of ${weeklySummary.start.toLocaleDateString()} to ${weeklySummary.end.toLocaleDateString()}`}
       />
 
       <View className="flex-row gap-3">
-        <StatCard label="Week Time" value={formatDuration(weeklySummary.totalDurationSec)} />
-        <StatCard label="Week Sessions" value={String(weeklySummary.sessionCount)} accent="#16a34a" />
+        <StatCard label="Week Time" value={formatDuration(weeklySummary.totalDurationSec)} accent="#4f46e5" />
+        <StatCard label="Week Sessions" value={String(weeklySummary.sessionCount)} accent="#059669" />
       </View>
 
       <StatCard label="Streak" value={`${streak} day${streak === 1 ? "" : "s"}`} accent="#d97706" />
 
-      <View className="rounded-2xl border border-slate-200 bg-white p-4">
+      <View className="rounded-3xl border border-slate-200 bg-white p-4">
         <SectionHeader title="Subject Breakdown" />
         {subjectBreakdown.length === 0 ? (
           <EmptyState
@@ -39,15 +40,18 @@ export default function AnalyticsScreen() {
             description="Once sessions are logged, weekly subject distribution appears here."
           />
         ) : (
-          <View className="gap-2">
+          <View className="gap-3">
             {subjectBreakdown.map((item) => (
-              <View key={item.subjectId} className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-                <View className="flex-row items-center justify-between">
+              <View key={item.subjectId} className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2.5">
+                <View className="mb-2 flex-row items-center justify-between">
                   <View className="flex-row items-center gap-2">
                     <View className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    <Text className="font-medium text-slate-800">{item.subjectName}</Text>
+                    <Text className="font-semibold text-slate-800">{item.subjectName}</Text>
                   </View>
-                  <Text className="text-sm font-semibold text-slate-700">{item.percentage}%</Text>
+                  <Text className="text-sm font-bold text-slate-700">{item.percentage}%</Text>
+                </View>
+                <View className="h-2 overflow-hidden rounded-full bg-slate-200">
+                  <View className="h-full rounded-full" style={{ width: `${item.percentage}%`, backgroundColor: item.color }} />
                 </View>
                 <Text className="mt-1 text-sm text-slate-500">{formatDuration(item.durationSec)}</Text>
               </View>
